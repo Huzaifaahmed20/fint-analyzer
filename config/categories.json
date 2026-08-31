@@ -1,0 +1,13 @@
+{
+  "Groceries": ["carrefour", "spinneys", "lulu", "waitrose", "choithram", "union coop", "west zone"],
+  "Dining": ["restaurant", "cafe", "coffee", "starbucks", "costa", "mcdonald", "kfc", "burger", "talabat", "zomato", "deliveroo", "careem eats"],
+  "Transport": ["uber", "careem", "rta", "salik", "petrol", "fuel", "adnoc", "eppco", "enoc", "parking", "taxi"],
+  "Utilities": ["dewa", "etisalat", "du telecom", "sewa", "addc", "electricity", "water bill"],
+  "Shopping": ["amazon", "noon", "namshi", "ikea", "sharaf dg", "virgin megastore"],
+  "Entertainment": ["netflix", "spotify", "cinema", "vox", "reel", "anghami", "disney"],
+  "Health": ["pharmacy", "clinic", "hospital", "medical", "life pharmacy", "boots"],
+  "Fees": ["fee", "charge", "vat", "commission", "penalty"],
+  "Income": ["salary", "payroll", "salary credit"],
+  "Subscriptions": ["subscription", "apple.com/bill", "google play", "icloud"],
+  "Transfers": ["transfer", "remittance", "exchange house"]
+}

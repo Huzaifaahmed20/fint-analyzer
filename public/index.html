@@ -16,18 +16,12 @@
   </header>
 
   <main>
-    <section class="card" id="import-card">
-      <h2>Import CSV</h2>
-      <form id="import-form">
-        <input type="file" id="csv-file" accept=".csv,text/csv" required />
-        <button type="submit">Import</button>
-      </form>
-      <p id="import-status" class="muted"></p>
-    </section>
+    <div id="budget-alert" class="alerts" hidden></div>
 
     <section class="card" id="total-card">
       <h2>Total Spend</h2>
       <p class="big-number" id="total-spend">AED 0.00</p>
+      <p class="muted" id="pace-note"></p>
     </section>
 
     <section class="card" id="trend-card">
@@ -42,28 +36,53 @@
 
     <section class="card" id="budgets-card">
       <h2>Budgets</h2>
-      <table id="budgets-table">
-        <thead>
-          <tr><th>Category</th><th>Monthly Limit (AED)</th><th></th></tr>
-        </thead>
-        <tbody id="budgets-body"></tbody>
-      </table>
+      <div class="table-wrap">
+        <table id="budgets-table">
+          <thead>
+            <tr><th>Category</th><th>Monthly Limit</th><th>Counts as spend</th><th></th></tr>
+          </thead>
+          <tbody id="budgets-body"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card" id="months-card">
+      <h2>Monthly Spend</h2>
+      <div id="months-list"></div>
+    </section>
+
+    <section class="card" id="import-card">
+      <h2>Import Statement</h2>
+      <form id="import-form">
+        <input type="file" id="csv-file" accept=".csv,.pdf,text/csv,application/pdf" required />
+        <button type="submit">Import</button>
+      </form>
+      <p class="muted">CSV or PDF statement. Protected PDFs are unlocked with
+        <code>PDF_PASSWORD</code> from <code>.env</code>.</p>
+      <p id="import-status" class="muted"></p>
+      <div class="tools">
+        <button type="button" id="recategorize-btn">Re-run categorization</button>
+        <a id="export-link" href="/api/export" download>Export CSV</a>
+      </div>
+      <p id="tools-status" class="muted"></p>
     </section>
 
     <section class="card" id="transactions-card">
       <h2>Transactions</h2>
       <div class="filters">
-        <input type="search" id="search" placeholder="Search description..." />
+        <input type="search" id="search" placeholder="Search merchant or description..." />
         <select id="category-filter">
           <option value="">All categories</option>
         </select>
       </div>
-      <table id="transactions-table">
-        <thead>
-          <tr><th>Date</th><th>Description</th><th>Category</th><th class="amount-col">Amount (AED)</th></tr>
-        </thead>
-        <tbody id="transactions-body"></tbody>
-      </table>
+      <div class="table-wrap">
+        <table id="transactions-table">
+          <thead>
+            <tr><th>Date</th><th>Description</th><th>Category</th><th class="amount-col">Amount (AED)</th></tr>
+          </thead>
+          <tbody id="transactions-body"></tbody>
+        </table>
+      </div>
     </section>
   </main>
 

@@ -1,25 +1,50 @@
+/* ---------- palette ---------- */
 :root {
   color-scheme: light dark;
-  --bg: #f5f6f8;
-  --card-bg: #ffffff;
-  --text: #1a1d23;
-  --muted: #6b7280;
-  --border: #e3e5e8;
-  --accent: #2563eb;
-  --danger: #dc2626;
-  --good: #16a34a;
+
+  --bg: #f4f6f9;
+  --bg-accent: #eef1f7;
+  --surface: #ffffff;
+  --surface-2: #fafbfc;
+  --text: #0f1419;
+  --muted: #667085;
+  --faint: #98a2b3;
+  --border: #e5e8ee;
+  --border-strong: #d3d8e0;
+
+  --accent: #3055ea;
+  --accent-ink: #ffffff;
+  --danger: #d92d20;
+  --warn: #b54708;
+  --good: #067647;
+
+  --shadow-sm: 0 1px 2px rgba(16, 24, 40, 0.05);
+  --shadow-md: 0 4px 14px -4px rgba(16, 24, 40, 0.10), 0 1px 3px rgba(16, 24, 40, 0.04);
+
+  --radius: 14px;
+  --radius-sm: 9px;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #14161a;
-    --card-bg: #1d2026;
-    --text: #e8eaed;
-    --muted: #9aa0a8;
-    --border: #2c2f36;
-    --accent: #5b8def;
-    --danger: #f87171;
-    --good: #4ade80;
+    --bg: #0c0e12;
+    --bg-accent: #101319;
+    --surface: #15181e;
+    --surface-2: #1a1e26;
+    --text: #e7eaf0;
+    --muted: #98a2b3;
+    --faint: #6c7689;
+    --border: #242932;
+    --border-strong: #333a46;
+
+    --accent: #7893ff;
+    --accent-ink: #0c0e12;
+    --danger: #f97066;
+    --warn: #fdb022;
+    --good: #47cd89;
+
+    --shadow-sm: none;
+    --shadow-md: 0 8px 24px -12px rgba(0, 0, 0, 0.7);
   }
 }
 
@@ -27,99 +52,282 @@
 
 body {
   margin: 0;
-  background: var(--bg);
+  background:
+    radial-gradient(1200px 600px at 15% -10%, var(--bg-accent), transparent 60%),
+    var(--bg);
   color: var(--text);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Inter", Roboto, "Helvetica Neue", sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
 }
 
+/* Money and dates line up column-wise. */
+.big-number, td.amount, .category-row .label, .month-value, #budgets-table input,
+.trend-label, td:first-child {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- top bar ---------- */
 .topbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1rem 1.5rem;
+  gap: 1rem;
+  padding: 0.85rem 1.75rem;
+  background: color-mix(in srgb, var(--surface) 82%, transparent);
+  backdrop-filter: saturate(180%) blur(12px);
   border-bottom: 1px solid var(--border);
 }
 
-.topbar h1 { font-size: 1.25rem; margin: 0; }
+.topbar h1 {
+  font-size: 1.05rem;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+/* Small brand mark, drawn in CSS so there are no external assets. */
+.topbar h1::before {
+  content: "";
+  width: 22px;
+  height: 22px;
+  border-radius: 7px;
+  background: linear-gradient(140deg, var(--accent), color-mix(in srgb, var(--accent) 45%, var(--good)));
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.18);
+}
 
 .month-picker { display: flex; align-items: center; gap: 0.5rem; }
-.month-picker label { color: var(--muted); font-size: 0.85rem; }
+.month-picker label {
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 550;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
 
+/* ---------- controls ---------- */
 input, select, button {
   font: inherit;
+  font-size: 0.9rem;
   color: inherit;
-  background: var(--card-bg);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: 0.4rem 0.6rem;
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  padding: 0.45rem 0.7rem;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease, opacity 0.15s ease;
+}
+
+input:hover, select:hover { border-color: var(--accent); }
+
+input:focus-visible, select:focus-visible, button:focus-visible, a:focus-visible {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 25%, transparent);
 }
 
 button {
   background: var(--accent);
-  color: white;
-  border: none;
+  color: var(--accent-ink);
+  border-color: transparent;
+  font-weight: 550;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+}
+button:hover { background: color-mix(in srgb, var(--accent) 88%, black); }
+button:active { transform: translateY(1px); }
+
+input[type="file"] { padding: 0.3rem; cursor: pointer; }
+input[type="file"]::file-selector-button {
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 550;
+  margin-right: 0.65rem;
+  padding: 0.35rem 0.7rem;
+  border: 1px solid var(--border-strong);
+  border-radius: 7px;
+  background: var(--surface-2);
+  color: var(--text);
   cursor: pointer;
 }
+input[type="file"]::file-selector-button:hover { border-color: var(--accent); color: var(--accent); }
 
-button:hover { opacity: 0.9; }
+input[type="checkbox"] { accent-color: var(--accent); width: 16px; height: 16px; padding: 0; cursor: pointer; }
 
+code {
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+  font-size: 0.82em;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: 0.05em 0.35em;
+}
+
+/* ---------- layout ---------- */
 main {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 1.1rem;
   padding: 1.5rem;
+  max-width: 1500px;
+  margin: 0 auto;
 }
 
+#total-card       { grid-column: span 4; }
+#trend-card       { grid-column: span 8; }
+#category-card    { grid-column: span 7; }
+#budgets-card     { grid-column: span 5; }
+#months-card      { grid-column: span 5; }
+#import-card      { grid-column: span 7; }
+#transactions-card{ grid-column: 1 / -1; }
+
+@media (max-width: 1080px) {
+  #total-card, #trend-card, #category-card, #budgets-card,
+  #months-card, #import-card { grid-column: span 6; }
+}
+@media (max-width: 720px) {
+  main { padding: 1rem; gap: 0.9rem; }
+  .topbar { padding: 0.75rem 1rem; }
+  #total-card, #trend-card, #category-card, #budgets-card,
+  #months-card, #import-card { grid-column: 1 / -1; }
+}
+
+/* ---------- cards ---------- */
 .card {
-  background: var(--card-bg);
+  background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 1rem 1.25rem;
+  border-radius: var(--radius);
+  padding: 1.15rem 1.3rem;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+  min-width: 0;
+}
+.card:hover { box-shadow: var(--shadow-md); }
+
+.card h2 {
+  font-size: 0.72rem;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--faint);
+  margin: 0 0 0.9rem;
 }
 
-.card h2 { font-size: 1rem; margin: 0 0 0.75rem; color: var(--muted); }
+.big-number {
+  font-size: 2.3rem;
+  font-weight: 680;
+  letter-spacing: -0.025em;
+  margin: 0;
+  line-height: 1.1;
+}
 
-#transactions-card, #category-card { grid-column: span 2; }
+.muted { color: var(--muted); font-size: 0.83rem; }
+#pace-note { margin: 0.5rem 0 0; }
+#import-status:empty, #tools-status:empty { display: none; }
 
-.big-number { font-size: 2rem; font-weight: 600; margin: 0; }
+/* ---------- alerts ---------- */
+.alerts { grid-column: 1 / -1; display: grid; gap: 0.65rem; }
 
-.muted { color: var(--muted); font-size: 0.85rem; }
+.alert {
+  position: relative;
+  background: color-mix(in srgb, var(--danger) 9%, var(--surface));
+  border: 1px solid color-mix(in srgb, var(--danger) 35%, var(--border));
+  border-left: 3px solid var(--danger);
+  border-radius: var(--radius-sm);
+  padding: 0.85rem 1.1rem;
+  box-shadow: var(--shadow-sm);
+}
+.alert-title {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: var(--danger);
+  font-weight: 650;
+  font-size: 0.92rem;
+  margin-bottom: 0.4rem;
+}
+.alert-title::before {
+  content: "!";
+  display: grid;
+  place-items: center;
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  background: var(--danger);
+  color: var(--surface);
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+.alert ul { margin: 0; padding-left: 1.1rem; font-size: 0.87rem; }
+.alert li { margin: 0.22rem 0; }
+.alert .over-by { color: var(--danger); font-weight: 650; }
 
-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
-th, td { text-align: left; padding: 0.4rem 0.5rem; border-bottom: 1px solid var(--border); }
-th { color: var(--muted); font-weight: 500; }
-.amount-col { text-align: right; }
-td.amount { text-align: right; font-variant-numeric: tabular-nums; }
-td.amount.expense { color: var(--danger); }
-td.amount.income { color: var(--good); }
+.alert.warn {
+  background: color-mix(in srgb, var(--warn) 9%, var(--surface));
+  border-color: color-mix(in srgb, var(--warn) 35%, var(--border));
+  border-left-color: var(--warn);
+}
+.alert.warn .alert-title { color: var(--warn); }
+.alert.warn .alert-title::before { background: var(--warn); }
+.alert.warn .over-by { color: var(--warn); }
 
-.filters { display: flex; gap: 0.5rem; margin-bottom: 0.75rem; }
-.filters input { flex: 1; }
-
-.category-row { margin-bottom: 0.75rem; }
+/* ---------- category breakdown ---------- */
+.category-row { margin-bottom: 0.9rem; }
+.category-row:last-child { margin-bottom: 0; }
 .category-row .label {
   display: flex;
   justify-content: space-between;
-  font-size: 0.85rem;
-  margin-bottom: 0.25rem;
+  align-items: baseline;
+  gap: 0.75rem;
+  font-size: 0.86rem;
+  font-weight: 500;
+  margin-bottom: 0.35rem;
 }
+.category-row .label > span:last-child { color: var(--muted); white-space: nowrap; }
 .category-row .bar-track {
-  height: 8px;
-  background: var(--border);
-  border-radius: 4px;
+  height: 9px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 999px;
   overflow: hidden;
 }
 .category-row .bar-fill {
   height: 100%;
-  background: var(--accent);
+  border-radius: 999px;
+  background: linear-gradient(90deg, color-mix(in srgb, var(--accent) 70%, transparent), var(--accent));
+  transition: width 0.45s cubic-bezier(0.22, 1, 0.36, 1);
 }
-.category-row .bar-fill.overrun { background: var(--danger); }
+.category-row .bar-fill.overrun {
+  background: linear-gradient(90deg, color-mix(in srgb, var(--danger) 70%, transparent), var(--danger));
+}
+.category-row .bar-fill.warning {
+  background: linear-gradient(90deg, color-mix(in srgb, var(--warn) 70%, transparent), var(--warn));
+}
+.category-row .label.overrun, .category-row .label.overrun > span:last-child { color: var(--danger); font-weight: 650; }
+.category-row .label.warning, .category-row .label.warning > span:last-child { color: var(--warn); font-weight: 600; }
+.category-row .over-by { font-weight: 650; }
+.excluded-note {
+  color: var(--faint);
+  font-size: 0.72rem;
+  font-weight: 400;
+  font-style: italic;
+  margin-left: 0.4rem;
+}
 
+/* ---------- trend ---------- */
 .trend-chart {
   display: flex;
   align-items: flex-end;
-  gap: 0.75rem;
-  height: 140px;
+  gap: 0.7rem;
+  height: 150px;
+  padding-top: 0.25rem;
+  border-bottom: 1px solid var(--border);
 }
 .trend-bar-wrap {
   flex: 1;
@@ -128,13 +336,180 @@ td.amount.income { color: var(--good); }
   align-items: center;
   justify-content: flex-end;
   height: 100%;
+  min-width: 0;
 }
 .trend-bar {
-  width: 60%;
-  background: var(--accent);
-  border-radius: 4px 4px 0 0;
-  min-height: 2px;
+  width: 62%;
+  min-height: 3px;
+  border-radius: 6px 6px 0 0;
+  background: linear-gradient(180deg, var(--accent), color-mix(in srgb, var(--accent) 45%, transparent));
+  transition: filter 0.15s ease, transform 0.2s cubic-bezier(0.22, 1, 0.36, 1), height 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  cursor: help;
 }
-.trend-label { font-size: 0.7rem; color: var(--muted); margin-top: 0.35rem; }
+.trend-bar-wrap:hover .trend-bar { filter: brightness(1.15); transform: scaleY(1.02); transform-origin: bottom; }
+.trend-label {
+  font-size: 0.7rem;
+  font-weight: 550;
+  color: var(--faint);
+  margin-top: 0.45rem;
+  white-space: nowrap;
+}
+.trend-bar-wrap:hover .trend-label { color: var(--text); }
 
-#budgets-table input { width: 100%; }
+/* ---------- tables ---------- */
+.table-wrap { overflow-x: auto; }
+#transactions-card .table-wrap { max-height: 540px; overflow-y: auto; }
+
+table { width: 100%; border-collapse: collapse; font-size: 0.87rem; }
+th, td { text-align: left; padding: 0.55rem 0.6rem; border-bottom: 1px solid var(--border); }
+th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: var(--surface);
+  color: var(--faint);
+  font-size: 0.7rem;
+  font-weight: 650;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+tbody tr { transition: background 0.12s ease; }
+tbody tr:hover { background: var(--surface-2); }
+tbody tr:last-child td { border-bottom: none; }
+
+td:first-child { color: var(--muted); white-space: nowrap; font-size: 0.82rem; }
+/* Bank descriptions run to hundreds of characters; clamp to two lines and keep
+   the full text in the title attribute. */
+#transactions-body td:nth-child(2) {
+  max-width: 34rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  font-weight: 450;
+  line-height: 1.35;
+}
+
+.amount-col { text-align: right; }
+td.amount { text-align: right; font-weight: 600; white-space: nowrap; }
+td.amount.expense { color: var(--text); }
+td.amount.income { color: var(--good); }
+
+#transactions-body select { font-size: 0.8rem; padding: 0.25rem 0.45rem; max-width: 100%; }
+#budgets-table input[type="number"] { width: 100%; max-width: 130px; text-align: right; }
+#budgets-table td:nth-child(3) { text-align: center; }
+#budgets-table th:nth-child(3) { text-align: center; }
+
+.filters { display: flex; gap: 0.6rem; margin-bottom: 0.85rem; flex-wrap: wrap; }
+.filters input { flex: 1; min-width: 180px; }
+
+/* ---------- tools ---------- */
+.tools { display: flex; gap: 0.5rem; align-items: center; margin-top: 0.85rem; flex-wrap: wrap; }
+.tools button, .tools a {
+  font-size: 0.82rem;
+  font-weight: 550;
+  color: var(--accent);
+  background: var(--surface);
+  text-decoration: none;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  padding: 0.4rem 0.75rem;
+  box-shadow: none;
+  cursor: pointer;
+}
+.tools button:hover, .tools a:hover {
+  background: color-mix(in srgb, var(--accent) 8%, var(--surface));
+  border-color: var(--accent);
+}
+
+.apply-merchant {
+  display: block;
+  margin-top: 0.3rem;
+  font-size: 0.73rem;
+  font-weight: 550;
+  color: var(--accent);
+  background: none;
+  border: none;
+  border-radius: 4px;
+  padding: 0;
+  cursor: pointer;
+  text-align: left;
+  box-shadow: none;
+}
+.apply-merchant:hover { background: none; text-decoration: underline; }
+
+/* ---------- monthly spend ---------- */
+.month-row {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  border-radius: var(--radius-sm);
+  box-shadow: none;
+  color: inherit;
+  padding: 0.5rem 0.55rem;
+  cursor: pointer;
+  transition: background 0.14s ease;
+}
+.month-row:hover { background: var(--surface-2); }
+.month-row.active { background: color-mix(in srgb, var(--accent) 10%, transparent); }
+.month-row.active .month-name { color: var(--accent); font-weight: 650; }
+
+.month-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.75rem;
+  margin-bottom: 0.35rem;
+}
+.month-name { font-size: 0.86rem; font-weight: 550; }
+.month-value {
+  font-size: 0.86rem;
+  font-weight: 650;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.month-track {
+  display: block;
+  height: 6px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  overflow: hidden;
+}
+.month-fill {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, color-mix(in srgb, var(--accent) 55%, transparent), var(--accent));
+  transition: width 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.trend-value {
+  font-size: 0.66rem;
+  font-weight: 650;
+  color: var(--faint);
+  margin-bottom: 0.3rem;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.trend-bar-wrap:hover .trend-value { color: var(--accent); }
+
+.row-flag {
+  color: var(--warn);
+  cursor: help;
+  font-weight: 800;
+}
+
+/* A category with no budget is shown relative to the largest category, so its
+   bar is a comparison rather than a progress meter. */
+.category-row .bar-fill.nobudget {
+  background: linear-gradient(90deg,
+    color-mix(in srgb, var(--muted) 25%, transparent),
+    color-mix(in srgb, var(--muted) 55%, transparent));
+}
+
+.empty-cell { text-align: center; padding: 1.75rem 0.6rem; }
+tbody tr:has(.empty-cell):hover { background: none; }

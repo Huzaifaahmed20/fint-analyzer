@@ -13,6 +13,8 @@ function makeDb() {
       description TEXT NOT NULL,
       amount REAL NOT NULL,
       category TEXT NOT NULL,
+      merchant TEXT NOT NULL DEFAULT '',
+      reconciled INTEGER NOT NULL DEFAULT 1,
       hash TEXT NOT NULL UNIQUE,
       imported_at TEXT NOT NULL
     );

@@ -1,13 +1,125 @@
 {
-  "Groceries": ["carrefour", "spinneys", "lulu", "waitrose", "choithram", "union coop", "west zone"],
-  "Dining": ["restaurant", "cafe", "coffee", "starbucks", "costa", "mcdonald", "kfc", "burger", "talabat", "zomato", "deliveroo", "careem eats"],
-  "Transport": ["uber", "careem", "rta", "salik", "petrol", "fuel", "adnoc", "eppco", "enoc", "parking", "taxi"],
-  "Utilities": ["dewa", "etisalat", "du telecom", "sewa", "addc", "electricity", "water bill"],
-  "Shopping": ["amazon", "noon", "namshi", "ikea", "sharaf dg", "virgin megastore"],
-  "Entertainment": ["netflix", "spotify", "cinema", "vox", "reel", "anghami", "disney"],
-  "Health": ["pharmacy", "clinic", "hospital", "medical", "life pharmacy", "boots"],
-  "Fees": ["fee", "charge", "vat", "commission", "penalty"],
-  "Income": ["salary", "payroll", "salary credit"],
-  "Subscriptions": ["subscription", "apple.com/bill", "google play", "icloud"],
-  "Transfers": ["transfer", "remittance", "exchange house"]
+  "Groceries": [
+    "carrefour",
+    "spinneys",
+    "lulu",
+    "waitrose",
+    "choithram",
+    "union coop",
+    "west zone",
+    "hypermarket",
+    "supermarket",
+    "supermart",
+    "mini mart",
+    "minimart",
+    "mart",
+    "grocery",
+    "baqala"
+  ],
+  "Dining": [
+    "restaurant",
+    "cafe",
+    "coffee",
+    "starbucks",
+    "costa",
+    "mcdonald",
+    "kfc",
+    "burger",
+    "talabat",
+    "zomato",
+    "deliveroo",
+    "careem eats"
+  ],
+  "Transport": [
+    "uber",
+    "careem",
+    "rta",
+    "salik",
+    "petrol",
+    "fuel",
+    "adnoc",
+    "eppco",
+    "enoc",
+    "parking",
+    "taxi"
+  ],
+  "Car Loan": [
+    "car loan",
+    "auto loan",
+    "vehicle loan",
+    "car finance",
+    "auto finance",
+    "vehicle finance",
+    "car lease",
+    "auto lease",
+    "car instal",
+    "auto instal",
+    "murabaha",
+    "ijara",
+    "ijarah"
+  ],
+  "Cash Withdrawal": [
+    "re:\\batm\\b",
+    "cash withdrawal",
+    "cash wdl",
+    "cash wd",
+    "re:\\d{2}:\\d{2}:\\d{2}\\s+E\\d{6,}"
+  ],
+  "Utilities": [
+    "dewa",
+    "etisalat",
+    "du telecom",
+    "sewa",
+    "addc",
+    "electricity",
+    "water bill"
+  ],
+  "Shopping": [
+    "amazon",
+    "noon",
+    "namshi",
+    "ikea",
+    "sharaf dg",
+    "virgin megastore"
+  ],
+  "Entertainment": [
+    "netflix",
+    "spotify",
+    "cinema",
+    "vox",
+    "reel",
+    "anghami",
+    "disney"
+  ],
+  "Health": [
+    "pharmacy",
+    "clinic",
+    "hospital",
+    "medical",
+    "life pharmacy",
+    "boots"
+  ],
+  "Fees": [
+    "fee",
+    "charge",
+    "vat",
+    "commission",
+    "penalty"
+  ],
+  "Income": [
+    "salary",
+    "payroll",
+    "salary credit"
+  ],
+  "Subscriptions": [
+    "subscription",
+    "apple.com/bill",
+    "google play",
+    "icloud"
+  ],
+  "Transfers": [
+    "transfer",
+    "remittance",
+    "exchange house"
+  ]
 }

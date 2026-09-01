@@ -1,16 +1,23 @@
 # Spend Tracker
 
-A local, CSV-based personal spend tracker. No bank connection — CSV import only.
+A local personal spend tracker. No bank connection — you import CSV or PDF statements yourself.
 Node.js + Express + SQLite (via Node's built-in `node:sqlite`), single-user, runs entirely on your machine.
 
 ## Features
 
 - CSV import with auto-detected columns (`Date`/`Description`/`Amount`, or `Date`/`Description`/`Debit`/`Credit`),
   including common bank export aliases (`Value Date`, `Narration`, `Withdrawal`, `Deposit`, ...)
+- PDF statement import, including password-protected PDFs (password read from `PDF_PASSWORD` in `.env`)
 - Duplicate detection on re-import (hash of date + description + amount)
 - Keyword-based auto-categorization (`config/categories.json`)
-- Manual recategorization per transaction
-- Monthly budgets per category, with overrun highlighting
+- Manual recategorization per transaction, with "apply to all from this merchant" to learn a rule
+- Readable merchant names extracted from raw bank text
+- Re-run categorization over existing rows after changing the rules
+- Recurring/subscription detection (needs 2+ months of statements)
+- Mark a category as not real spending (e.g. Transfers) to keep it out of the total
+- CSV export of any filtered view
+- Monthly budgets per category: red alert when exceeded, amber when past 80% or spending ahead of
+  the month's pace
 - Dashboard: total spend, category breakdown, budget bars, 6-month trend, transaction table with search/filter
 
 ## Setup
@@ -35,6 +42,21 @@ matches typical UAE bank exports. Amounts may include currency labels, thousands
 parentheses for negatives (e.g. `AED 1,250.00`, `(75.00)`).
 
 Re-importing the same statement (or an overlapping date range) skips rows that were already imported.
+
+## Password-protected PDFs
+
+Put the password in a `.env` file at the project root:
+
+```
+PDF_PASSWORD=your-statement-password
+```
+
+`.env` is gitignored. There is no password box in the UI by design — the app reads it from `.env`
+at startup. If a protected PDF is uploaded with no password configured you get a `NEED_PASSWORD`
+error; a wrong password gives `INCORRECT_PASSWORD`.
+
+Text-based PDFs only. A scanned statement (an image of a page) has no extractable text and there is
+no OCR — export a CSV from your bank instead.
 
 ## Categorization
 
